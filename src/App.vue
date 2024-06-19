@@ -16,4 +16,7 @@ export default {
 </script>
 
 <style>
+.error {
+    border: 2px solid red;
+}
 </style>

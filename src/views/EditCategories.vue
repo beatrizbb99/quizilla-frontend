@@ -1,9 +1,10 @@
 <template>
     <div>
         <h2>Kategorie:</h2>
-        <input v-model="newCategoryName" placeholder="category name" />
-        <input v-model="newCategoryDescription" placeholder="category description" />
-        <p v-if="error" class="error-message">Bitte geben Sie einen Namen und eine Beschreibung für die Kategorie ein.</p>
+        <input v-model="newCategoryName" placeholder="category name"
+            :class="{ 'error': isSubmitted && !newCategoryName }" />
+        <input v-model="newCategoryDescription" placeholder="category description"
+            :class="{ 'error': isSubmitted && !newCategoryDescription }" />
         <button @click="saveCategory">Speichern</button>
     </div>
 </template>
@@ -25,29 +26,32 @@ const router = useRouter();
 const toast = useToast();
 const newCategoryName = ref(props.name || '');
 const newCategoryDescription = ref(props.description || '');
-const error = ref(false);
+const isSubmitted = ref(false);
 
 const saveCategory = async () => {
+    isSubmitted.value = true;
+
+    if (!newCategoryName.value || !newCategoryDescription.value) {
+        toast.error('Bitte die Felder ausfüllen.');
+        return;
+    }
+
     try {
-        if(newCategoryName.value && newCategoryDescription.value) {
-            if (props.id) {
-                await updateCategory(props.id, {
-                    category_id: props.id,
-                    name: newCategoryName.value,
-                    description: newCategoryDescription.value
-                });
-                toast.success('Kategorie wurde bearbeitet.');
-            } else {
-                await createCategory({
-                    name: newCategoryName.value,
-                    description: newCategoryDescription.value
-                });
-                toast.success('Neue Kategorie wurde erstellt.');
-            }
-            router.push({ name: 'ShowCategories' });
+        if (props.id) {
+            await updateCategory(props.id, {
+                category_id: props.id,
+                name: newCategoryName.value,
+                description: newCategoryDescription.value
+            });
+            toast.success('Kategorie wurde bearbeitet.');
         } else {
-            error.value = true;
+            await createCategory({
+                name: newCategoryName.value,
+                description: newCategoryDescription.value
+            });
+            toast.success('Neue Kategorie wurde erstellt.');
         }
+        router.push({ name: 'ShowCategories' });
     } catch (error) {
         console.error('Error updating/creating category:', error);
     }

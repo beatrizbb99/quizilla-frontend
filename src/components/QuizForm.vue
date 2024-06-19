@@ -9,31 +9,43 @@
                 </option>
             </select>
         </div>
-        <input v-model="newTitle" placeholder="Titel..." />
+        <input v-model="newTitle" placeholder="Titel..." :class="{ 'error': isSubmitted && !newTitle }" />
+        <div>
+            <select v-model="selectedTime">
+                <option disabled value="">Zeit auswählen</option>
+                <option v-for="(time, index) in times" :key="index" :value="time">
+                    {{ time }}
+                </option>
+            </select>
+        </div>
         <div>
             <p>Fragen:</p>
             <div class="options">
-                <button @click="selectedOption = 'my'">Quiz Fragen</button>
+                <button @click="selectedOption = 'my'" :class="{ 'error': isSubmitted && newQuestions.length === 0 }">Quiz Fragen</button>
                 <button @click="selectedOption = 'all'">Fragen hinzufügen</button>
             </div>
-            <table>
-                <tbody v-if="selectedOption === 'my'">
-                    <tr v-for="question in newQuestions" :key="question.question_id">
-                        <td>{{ question.category }}</td>
-                        <td>{{ question.question }}</td>
-                        <td>{{ question.points }}</td>
-                        <button @click="deleteQuestion(question)">Löschen</button>
-                    </tr>
-                </tbody>
-                <tbody v-else-if="selectedOption === 'all'">
-                    <tr v-for="question in filteredAllQuestions" :key="question.question_id">
-                        <td>{{ question.category }}</td>
-                        <td>{{ question.question }}</td>
-                        <td>{{ question.points }}</td>
-                        <button @click="addQuestion(question)">Hinzufügen</button>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="question-table">
+                <table v-if="selectedOption === 'my'">
+                    <tbody>
+                        <tr v-for="question in newQuestions" :key="question.question_id">
+                            <td>{{ question.category }}</td>
+                            <td>{{ question.question }}</td>
+                            <td>{{ question.points }}</td>
+                            <button @click="deleteQuestion(question)">Löschen</button>
+                        </tr>
+                    </tbody>
+                </table>
+                <table v-else-if="selectedOption === 'all'">
+                    <tbody>
+                        <tr v-for="question in filteredAllQuestions" :key="question.question_id">
+                            <td>{{ question.category }}</td>
+                            <td>{{ question.question }}</td>
+                            <td>{{ question.points }}</td>
+                            <button @click="addQuestion(question)">Hinzufügen</button>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <button @click="saveQuiz">Speichern</button>
     </div>
@@ -42,19 +54,24 @@
 import { ref, onMounted, defineProps, defineEmits } from 'vue';
 import { categories, getAllCategories } from '../services/category.database.handler';
 import { questions, getQuestionsByIds, getAllQuestions } from '../services/question.database.handler';
+import { useToast } from 'vue-toast-notification';
 
 const props = defineProps({
     quizData: Object
 });
 
 const emits = defineEmits(['saveQuizData']);
+const toast = useToast();
 
 const quiz = props.quizData || null;
 const newQuestions = ref([]);
 const filteredAllQuestions = ref([]);
 const newTitle = ref(quiz?.name || '');
+const times = [2, 5, 10, 15];
+const selectedTime = ref(quiz?.time || times[0]);
 const selectedCategory = ref(quiz?.category || '');
 const selectedOption = ref('my');
+const isSubmitted = ref(false);
 
 
 const getQuizQuestions = async () => {
@@ -85,11 +102,19 @@ const addQuestion = (question) => {
 
 const saveQuiz = () => {
 
+    isSubmitted.value = true;
+
+    if (!newTitle.value || newQuestions.value.length === 0) {
+        toast.error('Bitte die Felder ausfüllen.');
+        return;
+    }
+
     const quizData = {
         quiz_id: quiz?.quiz_id || null,
         name: newTitle.value,
         category: selectedCategory.value,
-        question_ids: newQuestions.value.map(question => question.question_id)
+        question_ids: newQuestions.value.map(question => question.question_id),
+        time: selectedTime.value
     };
 
     emits('saveQuizData', quizData);
@@ -128,5 +153,11 @@ select {
 
 button {
     width: 50%;
+}
+
+.question-table {
+    min-height: 200px;
+    border-collapse: collapse;
+    width: 100%;
 }
 </style>

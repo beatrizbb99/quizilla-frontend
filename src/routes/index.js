@@ -10,6 +10,7 @@ import EditQuestions from '@/views/EditQuestions.vue';
 import LoginView from '@/views/LoginView.vue';
 import CreateQuizzes from '@/views/CreateQuizzes.vue';
 import EditQuizzes from '@/views/EditQuizzes.vue';
+import QuizGame from '@/views/QuizGame.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -33,6 +34,7 @@ const router = createRouter({
         { path: '/login', name: 'LoginView', component: LoginView },
         { path: '/quizzes/:id', name: 'EditQuizzes', component: EditQuizzes, props: true },
         { path: '/quizzes/create', name: 'CreateQuizzes', component: CreateQuizzes },
+        { path: '/quiz/:id', name: 'Quiz', component: QuizGame, props: true },
     ]
 });
 

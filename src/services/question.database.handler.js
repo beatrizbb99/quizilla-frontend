@@ -63,6 +63,8 @@ export async function createQuestion(question) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+        const data = await response.text();
+        return data;
     } catch (error) {
         throw new Error('Error creating question:', error);
     }

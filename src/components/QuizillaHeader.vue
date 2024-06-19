@@ -4,7 +4,7 @@
         <h1>Quizilla</h1>
       </div>
       <nav class="nav">
-        <router-link to="/">Quizze</router-link>
+        <router-link to="/quizzes">Quizze</router-link>
         <router-link to="/categories">Kategorie</router-link>
         <router-link to="/questions">Fragen</router-link>
       </nav>

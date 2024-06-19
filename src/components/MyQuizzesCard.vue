@@ -3,7 +3,7 @@
         <!--Insert Bild-->
         <h2>Name: {{ props.quizData.name }}</h2>
         <h4>Kategorie: {{ props.quizData.category }}</h4>
-        <button>Starten</button>
+        <button @click="startQuiz(props.quizData.quiz_id)">Starten</button>
         <div>
             <button @click="editQuiz(props.quizData.quiz_id)">Bearbeiten</button>
             <button @click="deleteQuizWithId(props.quizData.quiz_id)">Löschen</button>
@@ -14,6 +14,11 @@
 import { defineProps } from 'vue';
 import { useRouter } from 'vue-router'; 
 import { deleteQuiz } from '@/services/quiz.database.handler.js';
+
+
+const props = defineProps({
+    quizData: Object
+});
 
 const router = useRouter();
 
@@ -29,8 +34,11 @@ const deleteQuizWithId = async (quiz_id) => {
 
 }; 
 
-const props = defineProps({
-    quizData: Object
-});
+const startQuiz = (quiz_id) => {
+  router.push({
+    name: 'Quiz',
+    params: { id: quiz_id }
+  });
+};
 </script>
 <style scoped></style>

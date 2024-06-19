@@ -34,7 +34,7 @@ const fetchCategories = async () => {
   await getAllCategories();
 };
 
-const newCategory = async () => {
+const newCategory = () => {
   router.push({
     name: 'CreateCategories'
   });
