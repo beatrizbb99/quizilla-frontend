@@ -1,4 +1,6 @@
 import { ref } from 'vue';
+import { storage } from "../services/firebaseStorageConfig";
+import { ref as storageRef, deleteObject } from "firebase/storage";
 
 export const questions = ref([]);
 
@@ -89,7 +91,15 @@ export async function updateQuestion(id, question) {
 }
 
 
-export async function deleteQuestion(id) {
+export async function deleteQuestion(id, mediaUrl) {
+    if (mediaUrl) {
+        try {
+          await deleteObject(storageRef(storage, mediaUrl));
+          console.log('File deleted successfully within deleteQuestion');
+        } catch (error) {
+          console.error('Error deleting file:', error);
+        }
+      }
     try {
         const response = await fetch(`/api/questions/delete/${id}`, {
             method: 'DELETE'
