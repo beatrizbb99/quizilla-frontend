@@ -8,6 +8,12 @@
                     {{ category.name }}
                 </option>
             </select>
+            <div>
+        <CloudMedium v-if="mediaPath" :path="mediaPath" />
+        <input type="file" @change="handleUpload" v-if="!mediaPath">
+        <button @click="uploadMedia" v-if="!mediaPath">Hochladen</button>
+        <button @click="deleteMedia" v-if="mediaPath">Löschen</button>
+        </div>
         </div>
         <input v-model="newTitle" placeholder="Titel..." :class="{ 'error': isSubmitted && !newTitle }" />
         <div>
@@ -55,6 +61,10 @@ import { ref, onMounted, defineProps, defineEmits } from 'vue';
 import { categories, getAllCategories } from '../services/category.database.handler';
 import { questions, getQuestionsByIds, getAllQuestions } from '../services/question.database.handler';
 import { useToast } from 'vue-toast-notification';
+import { storage } from "../services/firebaseStorageConfig";
+import { ref as storageRef, uploadBytes, deleteObject } from "firebase/storage";
+import CloudMedium from '../components/CloudMedium';
+import { v4 as uuidv4 } from 'uuid';
 
 const props = defineProps({
     quizData: Object
@@ -72,6 +82,13 @@ const selectedTime = ref(quiz?.time || times[0]);
 const selectedCategory = ref(quiz?.category || '');
 const selectedOption = ref('my');
 const isSubmitted = ref(false);
+const selectedMedia = ref(null);
+const mediaPath = ref(quiz?.mediaPath || null);
+
+const handleUpload = (event) => {
+  const file = event.target.files[0];
+  selectedMedia.value = file;
+};
 
 
 const getQuizQuestions = async () => {
@@ -115,9 +132,36 @@ const saveQuiz = () => {
         category: selectedCategory.value,
         question_ids: newQuestions.value.map(question => question.question_id),
         time: selectedTime.value
+        mediaPath: mediaPath.value
     };
 
     emits('saveQuizData', quizData);
+};
+
+const uploadMedia = async () => {
+  if (selectedMedia.value) {
+    try {
+      const uniqueFileName = `Quizilla_media/quiz/${uuidv4()}_${selectedMedia.value.name}`;
+      const storageReference = storageRef(storage, uniqueFileName);
+      await uploadBytes(storageReference, selectedMedia.value);
+      console.log('File uploaded successfully');
+      mediaPath.value = uniqueFileName; // Update mediaPath with download URL
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  }
+};
+
+const deleteMedia = async () => {
+  if (mediaPath.value) {
+    try {
+      await deleteObject(storageRef(storage, mediaPath.value));
+      console.log('File deleted successfully');
+      mediaPath.value = null;
+    } catch (error) {
+      console.error('Error deleting file:', error);
+    }
+  }
 };
 
 const loadCategories = async () => {

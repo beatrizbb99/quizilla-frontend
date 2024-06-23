@@ -4,6 +4,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Media</th>
                     <th>Kategorie</th>
                     <th>Frage</th>
                     <th>Punkte</th>
@@ -11,11 +12,17 @@
             </thead>
             <tbody>
                 <tr v-for="question in questions" :key="question.question_id">
+                    <td v-if="question.mediaPath">
+                        <CloudMedium :path="question.mediaPath" />
+                    </td>
+                    <td v-else>
+                        <span>Kein Medium</span>
+                    </td>
                     <td>{{ question.category }}</td>
                     <td>{{ question.question }}</td>
                     <td>{{ question.points }}</td>
                     <td>
-                        <button @click="deleteQuestion(question.question_id)">Delete</button>
+                        <button @click="deleteQuestion(question.question_id, question.mediaPath)">Delete</button>
                         <button @click="editCreateQuestion(question.question_id)">Edit</button>
                     </td>
                 </tr>
@@ -29,6 +36,7 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { questions, getAllQuestions, deleteQuestion } from '../services/question.database.handler';
+import CloudMedium from '../components/CloudMedium';
 
 const router = useRouter();
 

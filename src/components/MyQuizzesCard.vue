@@ -1,12 +1,14 @@
 <template>
     <div>
-        <!--Insert Bild-->
+        <div v-if="props.quizData.mediaPath">
+            <CloudMedium :path="props.quizData.mediaPath" />
+        </div>
         <h2>Name: {{ props.quizData.name }}</h2>
         <h4>Kategorie: {{ props.quizData.category }}</h4>
         <button @click="startQuiz(props.quizData.quiz_id)">Starten</button>
         <div>
             <button @click="editQuiz(props.quizData.quiz_id)">Bearbeiten</button>
-            <button @click="deleteQuizWithId(props.quizData.quiz_id)">Löschen</button>
+            <button @click="deleteQuizWithId(props.quizData.quiz_id, props.quizData.mediaPath)">Löschen</button>
         </div>
     </div>
 </template>
@@ -14,6 +16,7 @@
 import { defineProps } from 'vue';
 import { useRouter } from 'vue-router'; 
 import { deleteQuiz } from '@/services/quiz.database.handler.js';
+import CloudMedium from '../components/CloudMedium';
 
 
 const props = defineProps({
@@ -29,8 +32,8 @@ const editQuiz = (quiz_id) => {
     });
 };
 
-const deleteQuizWithId = async (quiz_id) => {
-    await deleteQuiz(quiz_id);
+const deleteQuizWithId = async (quiz_id, mediaPath) => {
+    await deleteQuiz(quiz_id, mediaPath);
 
 }; 
 
