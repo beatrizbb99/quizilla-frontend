@@ -1,6 +1,8 @@
 <template>
     <div>
-        <CloudImage :path="props.quizData.mediaUrl"/>
+        <div v-if="props.quizData.mediaPath">
+            <CloudMedium :path="props.quizData.mediaPath" />
+        </div>
         <h2>Name: {{ props.quizData.name }}</h2>
         <h4>Kategorie: {{ props.quizData.category }}</h4>
         <button>Starten</button>
@@ -8,7 +10,7 @@
 </template>
 <script setup>
 import { defineProps } from 'vue';
-import CloudImage from '../components/CloudImage';
+import CloudMedium from '../components/CloudMedium';
 
 const props = defineProps({
     quizData: Object

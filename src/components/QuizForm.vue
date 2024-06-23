@@ -9,7 +9,7 @@
                 </option>
             </select>
             <div>
-        <CloudImage v-if="mediaPath" :path="mediaPath" />
+        <CloudMedium v-if="mediaPath" :path="mediaPath" />
         <input type="file" @change="handleUpload" v-if="!mediaPath">
         <button @click="uploadMedia" v-if="!mediaPath">Hochladen</button>
         <button @click="deleteMedia" v-if="mediaPath">Löschen</button>
@@ -50,7 +50,7 @@ import { categories, getAllCategories } from '../services/category.database.hand
 import { questions, getQuestionsByIds, getAllQuestions } from '../services/question.database.handler';
 import { storage } from "../services/firebaseStorageConfig";
 import { ref as storageRef, uploadBytes, deleteObject } from "firebase/storage";
-import CloudImage from '../components/CloudImage';
+import CloudMedium from '../components/CloudMedium';
 import { v4 as uuidv4 } from 'uuid';
 
 const props = defineProps({
@@ -66,7 +66,7 @@ const newTitle = ref(quiz?.name || '');
 const selectedCategory = ref(quiz?.category || '');
 const selectedOption = ref('my');
 const selectedMedia = ref(null);
-const mediaPath = ref(quiz?.mediaUrl || null);
+const mediaPath = ref(quiz?.mediaPath || null);
 
 const handleUpload = (event) => {
   const file = event.target.files[0];
@@ -107,7 +107,7 @@ const saveQuiz = () => {
         name: newTitle.value,
         category: selectedCategory.value,
         question_ids: newQuestions.value.map(question => question.question_id),
-        mediaUrl: mediaPath.value
+        mediaPath: mediaPath.value
     };
 
     emits('saveQuizData', quizData);

@@ -91,10 +91,10 @@ export async function updateQuestion(id, question) {
 }
 
 
-export async function deleteQuestion(id, mediaUrl) {
-    if (mediaUrl) {
+export async function deleteQuestion(id, mediaPath) {
+    if (mediaPath) {
         try {
-          await deleteObject(storageRef(storage, mediaUrl));
+          await deleteObject(storageRef(storage, mediaPath));
           console.log('File deleted successfully within deleteQuestion');
         } catch (error) {
           console.error('Error deleting file:', error);

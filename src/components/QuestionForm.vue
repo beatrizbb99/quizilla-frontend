@@ -10,7 +10,7 @@
             </select>
         </div>
         <div>
-        <CloudImage v-if="mediaPath" :path="mediaPath" />
+        <CloudMedium v-if="mediaPath" :path="mediaPath" />
         <input type="file" @change="handleUpload" v-if="!mediaPath">
         <button @click="uploadMedia" v-if="!mediaPath">Hochladen</button>
         <button @click="deleteMedia" v-if="mediaPath">Löschen</button>
@@ -34,7 +34,7 @@ import { ref, onMounted, defineProps, defineEmits } from 'vue';
 import { categories, getAllCategories } from '../services/category.database.handler';
 import { storage } from "../services/firebaseStorageConfig";
 import { ref as storageRef, uploadBytes, deleteObject } from "firebase/storage";
-import CloudImage from '../components/CloudImage';
+import CloudMedium from '../components/CloudMedium';
 import { v4 as uuidv4 } from 'uuid';  // Import the uuid library
 
 const props = defineProps({
@@ -53,7 +53,7 @@ const newOptionTwo = ref(question?.options[1] || '');
 const newOptionThree = ref(question?.options[2] || '');
 const selectedCategory = ref(question?.category || '');
 const selectedMedia = ref(null);
-const mediaPath = ref(question?.mediaUrl || null);
+const mediaPath = ref(question?.mediaPath || null);
 
 const handleUpload = (event) => {
   const file = event.target.files[0];
@@ -84,7 +84,7 @@ const saveQuestion = () => {
         question: newQuestion.value,
         points: newPoints.value,
         options: saveOptions(),
-        mediaUrl: mediaPath.value
+        mediaPath: mediaPath.value
     };
     emits('saveQuestionData', questionData);
 };
