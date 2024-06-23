@@ -60,7 +60,7 @@ const newOptionThree = ref('');
 const selectedCategory = ref(question.value?.category || 'Allgemein');
 const isSubmitted = ref(false);
 const selectedMedia = ref(null);
-const mediaPath = ref(question?.mediaPath || null);
+const mediaPath = ref(question.value?.mediaPath || null);
 
 const handleUpload = (event) => {
   const file = event.target.files[0];

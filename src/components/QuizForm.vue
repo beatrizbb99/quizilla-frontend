@@ -131,7 +131,7 @@ const saveQuiz = () => {
         name: newTitle.value,
         category: selectedCategory.value,
         question_ids: newQuestions.value.map(question => question.question_id),
-        time: selectedTime.value
+        time: selectedTime.value,
         mediaPath: mediaPath.value
     };
 
