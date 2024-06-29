@@ -1,5 +1,8 @@
 <template>
     <div v-if="show">
+        <div v-if="question.mediaPath">
+            <CloudMedium :path="question.mediaPath" />
+        </div>
         <h2>{{ question.question }}</h2>
         <div v-for="(option, index) in question.options" :key="index" class="option-container">
             <div :class="getOptionClass(option)">
@@ -19,6 +22,7 @@
 <script setup>
 import { ref, defineProps, onMounted, defineEmits } from 'vue';
 import { getQuestion } from '@/services/question.database.handler';
+import CloudMedium from '../components/CloudMedium';
 
 const question = ref(null);
 const show = ref(false);

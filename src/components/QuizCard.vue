@@ -6,7 +6,6 @@
         <h2>Name: {{ props.quizData.name }}</h2>
         <h4>Kategorie: {{ props.quizData.category }}</h4>
         <button @click="startQuiz(props.quizData.quiz_id)">Starten</button>
-        <button>Starten</button>
     </div>
 </template>
 <script setup>

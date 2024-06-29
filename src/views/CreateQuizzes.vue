@@ -4,6 +4,7 @@
 
 <script setup>
 import QuizForm from '@/components/QuizForm.vue';
+import { defineProps } from 'vue';
 import { createQuiz } from '@/services/quiz.database.handler.js';
 import { useRouter } from 'vue-router';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
@@ -12,9 +13,13 @@ import { useToast } from 'vue-toast-notification';
 const router = useRouter();
 const toast = useToast();
 
+const props = defineProps({
+    userId: String,
+});
+
 const handleSaveQuizData = async (quizData) => {
   try {
-    await createQuiz(quizData);
+    await createQuiz(quizData, props.userId);
     toast.success('Neues Quiz wurde erstellt!');
     router.push({ name: 'ShowQuizzes' });
   } catch (error) {

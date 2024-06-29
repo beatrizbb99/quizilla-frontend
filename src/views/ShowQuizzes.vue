@@ -13,7 +13,7 @@
       </li>
     </ul>
     <ul v-else-if="selectedOption === 'my'">
-      <MyQuizzes :myQuizData="filteredQuizzes" />
+      <MyQuizzes />
     </ul>
   </div>
 </template>

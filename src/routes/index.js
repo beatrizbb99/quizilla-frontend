@@ -37,7 +37,7 @@ const router = createRouter({
         { path: '/profile', name: 'ProfileView', component: ProfileView },
         { path: '/changePassword', name: 'ChangePasswordView', component: ChangePasswordView },
         { path: '/quizzes/:id', name: 'EditQuizzes', component: EditQuizzes, props: true },
-        { path: '/quizzes/create', name: 'CreateQuizzes', component: CreateQuizzes },
+        { path: '/quizzes/create/:userId', name: 'CreateQuizzes', component: CreateQuizzes, props: true },
         { path: '/quiz/:id', name: 'Quiz', component: QuizGame, props: true },
     ]
 });

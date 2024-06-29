@@ -5,10 +5,10 @@
         </div>
         <h2>Name: {{ props.quizData.name }}</h2>
         <h4>Kategorie: {{ props.quizData.category }}</h4>
-        <button @click="startQuiz(props.quizData.quiz_id)">Starten</button>
+        <button @click="startQuiz()">Starten</button>
         <div>
-            <button @click="editQuiz(props.quizData.quiz_id)">Bearbeiten</button>
-            <button @click="deleteQuizWithId(props.quizData.quiz_id, props.quizData.mediaPath)">Löschen</button>
+            <button @click="editQuiz()">Bearbeiten</button>
+            <button @click="deleteQuizWithId()">Löschen</button>
         </div>
     </div>
 </template>
@@ -20,27 +20,27 @@ import CloudMedium from '../components/CloudMedium';
 
 
 const props = defineProps({
-    quizData: Object
+    quizData: Object,
+    userId: String
 });
 
 const router = useRouter();
 
-const editQuiz = (quiz_id) => {
+const editQuiz = () => {
     router.push({
         name: 'EditQuizzes',
-        params: { id: quiz_id }
+        params: { id: props.quizData.quiz_id }
     });
 };
 
-const deleteQuizWithId = async (quiz_id, mediaPath) => {
-    await deleteQuiz(quiz_id, mediaPath);
-
+const deleteQuizWithId = async () => {
+    await deleteQuiz(props.quizData.quiz_id, props.userId, props.quizData.mediaPath);
 }; 
 
-const startQuiz = (quiz_id) => {
+const startQuiz = () => {
   router.push({
     name: 'Quiz',
-    params: { id: quiz_id }
+    params: { id: props.quizData.quiz_id }
   });
 };
 </script>
