@@ -7,6 +7,8 @@
 
 <script>
 import QuizillaHeader from '@/components/QuizillaHeader.vue'; 
+import '@/styles/App.css'; 
+
 export default {
   name: 'App',
   components: {

@@ -13,10 +13,13 @@ import ChangePasswordView from '@/views/ChangePasswordView.vue';
 import CreateQuizzes from '@/views/CreateQuizzes.vue';
 import EditQuizzes from '@/views/EditQuizzes.vue';
 import QuizGame from '@/views/QuizGame.vue';
+import LoginRegister from '@/views/LoginRegister.vue';
+
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+        { path:'/', name: 'LoginRegister', component: LoginRegister },
         {
             path: '/categories/:id',
             name: 'EditCategories',
