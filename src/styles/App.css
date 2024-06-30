@@ -5,11 +5,13 @@
     --secondary-color: #F2AF36;
     --tertiary-color: #914D27;
     --background-color: #E6EFB5;
+    --secondary-background-color: #d0dd8f;
 
     --font-size-larger: 100pt;
     --font-size-large: 50pt;
     --font-size-medium-large: 20pt;
     --font-size-medium: 16pt;
+    --font-size-small: 14pt;
 
     --font-family: "Lilita One", sans-serif;
 }
@@ -19,6 +21,7 @@ body {
     font-family: var(--font-family);
     background-color: var(--background-color);
     letter-spacing: 0.05rem;
+    color: var(--primary-color);
 }
 
 .regular-button {
@@ -36,6 +39,50 @@ body {
 }
 
 .regular-button:hover {
-    background-color: #f2b036ec;
+    background-color: #f4b746;
     box-shadow: 0 2px 0 #c48f2d, 2px 4px 6px #c58f2c;
+}
+
+.edit-button {
+    color: var(--background-color);
+    background-color: var(--primary-color);
+}
+
+.edit-button:hover {
+    background-color: #7e8833;
+    box-shadow: 0 2px 0 #656d25, 2px 4px 6px #6E772D;
+}
+
+.delete-button {
+    color: var(--background-color);
+    background-color: #DD702D;
+}
+
+.delete-button:hover {
+    background-color: #eb7c37;
+    box-shadow: 0 2px 0 #db6c27, 2px 4px 6px #d36826;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--primary-color);
+}
+
+table th,
+table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+table th {
+    font-size: var(--font-size-medium);
+}
+
+table td {
+    font-size: 14pt;
+}
+table tbody tr:last-child td {
+    border-bottom: none;
 }

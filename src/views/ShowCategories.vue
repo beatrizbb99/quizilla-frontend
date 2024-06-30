@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Kategorien:</h1>
     <table>
       <thead>
         <tr>
           <th>Name</th>
           <th>Beschreibung</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -13,13 +14,13 @@
           <td>{{ category.name }}</td>
           <td>{{ category.description }}</td>
           <td>
-            <button @click="deleteCategory(category.category_id, category.name)">Delete</button>
-            <button @click="editCategory(category)">Edit</button>
+            <button @click="editCategory(category)" class="regular-button edit-button btn">Edit</button>
+            <button @click="deleteCategory(category.category_id, category.name)" class="regular-button delete-button btn">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <button @click="newCategory()">Neue Kategorie</button>
+    <button @click="newCategory()" class="regular-button btn new">Neue Kategorie</button>
   </div>
 </template>
 
@@ -53,4 +54,13 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  font-size: 14pt;
+  width: 20%;
+}
+
+.new {
+  margin-top: 50px;
+}
+</style>

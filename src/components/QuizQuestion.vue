@@ -1,23 +1,37 @@
 <template>
-    <div v-if="show">
-        <div v-if="question.mediaPath">
-            <CloudMedium :path="question.mediaPath" />
+    <div v-if="show" class="question-container">
+        <div class="media-container" v-if="question.mediaPath">
+            <CloudMedium :path="question.mediaPath" class="media" />
         </div>
-        <h2>{{ question.question }}</h2>
-        <div v-for="(option, index) in question.options" :key="index" class="option-container">
-            <div :class="getOptionClass(option)">
-                <input 
-                    type="radio" 
-                    :id="`option-${index}`" 
-                    :value="option" 
-                    v-model="selectedOption" 
-                    @change="submitAnswer"
-                >
-                <label :for="`option-${index}`">{{ option }}</label>
+        <div class="content-container">
+            <div class="question-header">
+                <h2>{{ question.question }}</h2>
+                <p class="points">{{ question.points }}P</p>
+            </div>
+            <div class="options-container">
+                <div v-for="(option, index) in question.options" :key="index" class="option-wrapper">
+                    <div :class="getOptionClass(option)" class="option">
+                        <input 
+                            type="radio" 
+                            :id="`option-${index}`" 
+                            :value="option" 
+                            v-model="selectedOption"
+                            @change="submitAnswer"
+                        >
+                        <label 
+                            :for="`option-${index}`" 
+                            @click.prevent 
+                            class="option-label"
+                        >
+                            {{ option }}
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
+
 
 <script setup>
 import { ref, defineProps, onMounted, defineEmits } from 'vue';
@@ -30,15 +44,14 @@ const selectedOption = ref(null);
 
 const props = defineProps({
     question_id: String,
-    answerStatus: Object 
+    answerStatus: Object
 });
 
 const emit = defineEmits(['answer-selected']);
 
 function submitAnswer() {
-  emit('answer-selected', { questionId: props.question_id, value: selectedOption.value });
+    emit('answer-selected', { questionId: props.question_id, value: selectedOption.value });
 }
-
 
 function getOptionClass(option) {
     if (props.answerStatus && option === props.answerStatus.selectedAnswer) {
@@ -50,11 +63,8 @@ function getOptionClass(option) {
     } else if (props.answerStatus && option === props.answerStatus.correctAnswer) {
         return 'correct-answer';
     }
-    return 'neutral';
+    //return 'neutral';
 }
-
-
-
 
 onMounted(async () => {
     if (props.question_id) {
@@ -62,25 +72,82 @@ onMounted(async () => {
     }
     show.value = true;
 });
-
 </script>
 
 <style scoped>
+.question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-.option-container {
-    margin: 10px 0px;
-    width: 50%;
+.media-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.media {
+    min-height: 500px;
+    object-fit: cover;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    font-size: var(--font-size-medium);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.points {
+    font-weight: bold;
+    color: var(--tertiary-color);
+}
+
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
+.option-wrapper {
+    flex: 1 1 calc(50% - 10px);
+    display: flex;
+    justify-content: center;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    background-color: #f2b03681;
+    color: var(--tertiary-color);
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 .correct-answer {
-    border: 4px solid green;
+    border: 3px solid green;
 }
 
 .wrong-answer {
-    border: 4px solid red;
-}
-
-.neutral {
-    border: 2px solid black;
+    border: 3px solid red;
 }
 </style>

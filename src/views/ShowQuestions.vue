@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Fragesammlung:</h2>
+        <h1>Fragesammlung:</h1>
         <table>
             <thead>
                 <tr>
@@ -8,12 +8,13 @@
                     <th>Kategorie</th>
                     <th>Frage</th>
                     <th>Punkte</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="question in questions" :key="question.question_id">
                     <td v-if="question.mediaPath">
-                        <CloudMedium :path="question.mediaPath" />
+                        <CloudMedium :path="question.mediaPath" class="media"/>
                     </td>
                     <td v-else>
                         <span>Kein Medium</span>
@@ -22,13 +23,13 @@
                     <td>{{ question.question }}</td>
                     <td>{{ question.points }}</td>
                     <td>
-                        <button @click="deleteQuestion(question.question_id, question.mediaPath)">Delete</button>
-                        <button @click="editCreateQuestion(question.question_id)">Edit</button>
+                        <button @click="editCreateQuestion(question.question_id)" class="regular-button edit-button btn">Edit</button>
+                        <button @click="deleteQuestion(question.question_id, question.mediaPath)" class="regular-button delete-button btn">Delete</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <button @click="editCreateQuestion()">Neue Frage</button>
+        <button @click="editCreateQuestion()" class="regular-button btn new">Neue Frage</button>
     </div>
 </template>
 
@@ -61,3 +62,18 @@ onMounted(() => {
     fetchQuestions();
 });
 </script>
+<style scoped>
+.btn {
+  font-size: 14pt;
+}
+
+.new {
+  margin-top: 50px;
+  width: 20%;
+}
+
+.media {
+    min-height: 100px;
+    width: 200px;
+}
+</style>

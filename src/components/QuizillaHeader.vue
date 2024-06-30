@@ -20,12 +20,15 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #6E772D;
+  background-color: var(--primary-color);
   color: white;
 }
 
 .logo h1 {
-  color: #F2AF36;
+  color: var(--secondary-color);
+  font-size: 40pt;
+  margin: 0;
+  letter-spacing: 0.10rem;
 }
 
 .nav {
