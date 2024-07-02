@@ -8,6 +8,7 @@ import ShowQuestions from '@/views/ShowQuestions.vue';
 import CreateQuestions from '@/views/CreateQuestions.vue';
 import EditQuestions from '@/views/EditQuestions.vue';
 import LoginView from '@/views/LoginView.vue';
+import RegisterView from '@/views/RegisterUserView.vue';
 import ProfileView from '@/views/ProfileView.vue';
 import ChangePasswordView from '@/views/ChangePasswordView.vue';
 import CreateQuizzes from '@/views/CreateQuizzes.vue';
@@ -37,6 +38,7 @@ const router = createRouter({
         { path: '/questions/:id', name: 'EditQuestions', component: EditQuestions, props: true },
         { path: '/questions/create', name: 'CreateQuestions', component: CreateQuestions },
         { path: '/login', name: 'LoginView', component: LoginView },
+        { path: '/register', name: 'RegisterUserView', component: RegisterView },
         { path: '/profile', name: 'ProfileView', component: ProfileView },
         { path: '/changePassword', name: 'ChangePasswordView', component: ChangePasswordView },
         { path: '/quizzes/:id', name: 'EditQuizzes', component: EditQuizzes, props: true },
