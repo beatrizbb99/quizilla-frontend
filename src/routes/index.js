@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import store from '../store/index';
 
 import EditCategories from '../views/EditCategories.vue';
 import ShowQuizzes from '../views/ShowQuizzes.vue';
@@ -31,20 +31,32 @@ const router = createRouter({
                 description: route.query.description
             })
         },
-        { path:'/categories/create', name: 'CreateCategories', component: EditCategories },
-        { path: '/quizzes', name: 'ShowQuizzes', component: ShowQuizzes },
-        { path: '/categories', name: 'ShowCategories', component: ShowCategories },
-        { path: '/questions', name: 'ShowQuestions', component: ShowQuestions },
-        { path: '/questions/:id', name: 'EditQuestions', component: EditQuestions, props: true },
-        { path: '/questions/create', name: 'CreateQuestions', component: CreateQuestions },
+        { path:'/categories/create', name: 'CreateCategories', component: EditCategories, meta: { requiresAuth: true } },
+        { path: '/quizzes', name: 'ShowQuizzes', component: ShowQuizzes, meta: { requiresAuth: true } },
+        { path: '/categories', name: 'ShowCategories', component: ShowCategories, meta: { requiresAuth: true } },
+        { path: '/questions', name: 'ShowQuestions', component: ShowQuestions, meta: { requiresAuth: true } },
+        { path: '/questions/:id', name: 'EditQuestions', component: EditQuestions, props: true, meta: { requiresAuth: true } },
+        { path: '/questions/create', name: 'CreateQuestions', component: CreateQuestions, meta: { requiresAuth: true } },
         { path: '/login', name: 'LoginView', component: LoginView },
         { path: '/register', name: 'RegisterUserView', component: RegisterView },
-        { path: '/profile', name: 'ProfileView', component: ProfileView },
-        { path: '/changePassword', name: 'ChangePasswordView', component: ChangePasswordView },
-        { path: '/quizzes/:id', name: 'EditQuizzes', component: EditQuizzes, props: true },
-        { path: '/quizzes/create/:userId', name: 'CreateQuizzes', component: CreateQuizzes, props: true },
-        { path: '/quiz/:id', name: 'Quiz', component: QuizGame, props: true },
+        { path: '/profile', name: 'ProfileView', component: ProfileView, meta: { requiresAuth: true } },
+        { path: '/changePassword', name: 'ChangePasswordView', component: ChangePasswordView, meta: { requiresAuth: true } },
+        { path: '/quizzes/:id', name: 'EditQuizzes', component: EditQuizzes, props: true, meta: { requiresAuth: true } },
+        { path: '/quizzes/create/:userId', name: 'CreateQuizzes', component: CreateQuizzes, props: true, meta: { requiresAuth: true } },
+        { path: '/quiz/:id', name: 'Quiz', component: QuizGame, props: true, meta: { requiresAuth: true } },
     ]
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!store.getters.isLoggedIn) {
+            next({ name: 'LoginRegister' });
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 });
 
 export default router;

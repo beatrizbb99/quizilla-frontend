@@ -15,14 +15,13 @@
   </div>
 </template>
 
-
-
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toast-notification';
-import { login } from '@/services/user.handler.js';
+import { useStore } from 'vuex';
 
+const store = useStore();
 const router = useRouter();
 const toast = useToast();
 
@@ -41,9 +40,9 @@ async function loginUser() {
   }
 
   try {
-    await login({ email: email.value, password: password.value });
+    await store.dispatch('loginUser', { email: email.value, password: password.value });
     toast.success('Erfolgreich angemeldet!');
-    router.push({ name: 'ShowQuizzes' }); // Passe den Routen-Namen nach Bedarf an
+    router.push({ name: 'ShowQuizzes' });
   } catch (error) {
     toast.error('Die eingegebenen Anmeldeinformationen sind falsch. Versuch es erneut...');
   }

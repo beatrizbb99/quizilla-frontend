@@ -4,8 +4,8 @@
             <h1 class="title">Quizilla</h1>
             <h2 class="title-info">Lernplatform</h2>
             <p class="info">Eine Quiz-Anwendung die groß und mächtig ist, wenn es darum geht, Wissen zu vermitteln!</p>
-            <button class="regular-button">Login</button>
-            <button class="regular-button">Registrieren</button>
+            <button class="regular-button" @click=login>Login</button>
+            <button class="regular-button" @click=register>Registrieren</button>
         </div>
         <img 
             :src="currentImage" 
@@ -20,6 +20,9 @@
 import { ref } from 'vue';
 import logo from '@/assets/LoginRegisterQuizilla.svg';
 import hoverLogo from '@/assets/LoginRegisterQuizillaAwake.svg';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const currentImage = ref(logo);
 
@@ -29,6 +32,14 @@ const handleMouseOver = () => {
 
 const handleMouseLeave = () => {
     currentImage.value = logo;
+};
+
+const login = () => {
+    router.push({ name: 'LoginView' });
+};
+
+const register = () => {
+    router.push({ name: 'RegisterUserView' });
 };
 
 </script>
