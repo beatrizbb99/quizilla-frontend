@@ -1,16 +1,19 @@
-// store/index.js
 import { createStore } from 'vuex';
 import { login } from '@/services/user.handler.js';
 
 const store = createStore({
     state: {
         token: localStorage.getItem('token') || null,
+        userId: null, // Initialize userId to null
         error: null
     },
     mutations: {
         setToken(state, token) {
             state.token = token;
             localStorage.setItem('token', token);
+        },
+        setUserId(state, userId) {
+            state.userId = userId;
         },
         setError(state, error) {
             state.error = error;
@@ -20,6 +23,7 @@ const store = createStore({
         },
         clearToken(state) {
             state.token = null;
+            state.userId = null;
             localStorage.removeItem('token');
         }
     },
@@ -27,12 +31,13 @@ const store = createStore({
         async loginUser({ commit }, { email, password }) {
             try {
                 const response = await login({ email, password });
-                const token = response.token; 
+                const { token, userId } = response;
 
                 commit('setToken', token);
-                commit('clearError');
+                commit('setUserId', userId);
 
-                //return token;
+                commit('clearError');
+                // return token;
             } catch (error) {
                 commit('setError', error.message);
                 throw new Error(error.message);
@@ -45,7 +50,8 @@ const store = createStore({
     getters: {
         isLoggedIn: state => !!state.token,
         getToken: state => state.token,
-        getError: state => state.error
+        getError: state => state.error,
+        getUserId: state => state.userId
     }
 });
 

@@ -31,7 +31,10 @@ export async function login(user) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        console.log('ok');
+        const data = await response.json();
+
+        console.log('Login successful');
+        return data; 
     } catch (error) {
         console.error('Error creating quiz:', error);
         throw new Error('Error creating quiz:', error);
