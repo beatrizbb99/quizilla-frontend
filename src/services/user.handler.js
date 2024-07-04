@@ -21,7 +21,7 @@ export async function register(user) {
 
 export async function login(user) {
     try {
-        const response = await fetch('/api/login', {
+        const response = await fetch('https://europe-west1-flowing-gasket-421115.cloudfunctions.net/function-1', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
