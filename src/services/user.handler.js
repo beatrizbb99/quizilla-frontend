@@ -2,7 +2,7 @@
 
 export async function register(user) {
     try {
-        const response = await fetch('/api/register', {
+        const response = await fetch('https://europe-west1-flowing-gasket-421115.cloudfunctions.net/function-2', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
