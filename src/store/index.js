@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { login } from '@/services/user.handler.js';
+import { login, sendUserToSpring } from '@/services/user.handler.js';
 
 const store = createStore({
     state: {
@@ -30,14 +30,21 @@ const store = createStore({
     actions: {
         async loginUser({ commit }, { email, password }) {
             try {
-                const response = await login({ email, password });
+
+                const functionSQLResponse = await login({ email, password });
+                const { user } = functionSQLResponse;
+                console.log("kommt von Function: ",user)
+                if (user) {
+                const response = await sendUserToSpring({user});
                 const { token, userId } = response;
+                console.log("kommt von spring: ",token, "id: ", userId)
 
                 commit('setToken', token);
                 commit('setUserId', userId);
-
                 commit('clearError');
-                // return token;
+            } else {
+                throw new Error('Invalid credentials'); // Handle invalid credentials case
+            }
             } catch (error) {
                 commit('setError', error.message);
                 throw new Error(error.message);
@@ -46,6 +53,9 @@ const store = createStore({
         logoutUser({ commit }) {
             commit('clearToken');
         }
+
+
+
     },
     getters: {
         isLoggedIn: state => !!state.token,
