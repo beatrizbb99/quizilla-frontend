@@ -1,82 +1,57 @@
 import { ref } from 'vue';
+import fetchWithAuth from './fetchWithAuth'; // Importiere die Utility-Funktion
 
 export const categories = ref([]);
 
 export async function getAllCategories() {
     try {
-        const response = await fetch('/api/categories');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
+        const data = await fetchWithAuth('/api/categories');
         categories.value = data;
     } catch (error) {
-        throw new Error('Error fetching categories:', error);
+        throw new Error(`Error fetching categories: ${error.message}`);
     }
 }
 
 export async function getCategory(id) {
     try {
-        const response = await fetch(`/api/categories/${id}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
+        const data = await fetchWithAuth(`/api/categories/${id}`);
         return data;
     } catch (error) {
-        throw new Error(`Error fetching category with id ${id}:`, error);
+        throw new Error(`Error fetching category with id ${id}: ${error.message}`);
     }
 }
 
 export async function createCategory(category) {
     try {
-        const response = await fetch('/api/categories/create', {
+        await fetchWithAuth('/api/categories/create', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(category)
         });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        //categories.value.push(category);
+        // categories.value.push(category); // Optional: Aktualisiere die Kategorienliste nach dem Erstellen
     } catch (error) {
-        throw new Error('Error creating category:', error);
+        throw new Error(`Error creating category: ${error.message}`);
     }
 }
 
 export async function updateCategory(id, category) {
     try {
-        const response = await fetch(`/api/categories/update/${id}`, {
+        await fetchWithAuth(`/api/categories/update/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(category)
         });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        
         console.log(`Category with id ${id} was successfully updated.`);
     } catch (error) {
-        throw new Error(`Error updating category with id ${id}:`, error);
+        throw new Error(`Error updating category with id ${id}: ${error.message}`);
     }
 }
 
-
 export async function deleteCategory(id, name) {
     try {
-        const response = await fetch(`/api/categories/delete/${id}/${name}`, {
+        await fetchWithAuth(`/api/categories/delete/${id}/${name}`, {
             method: 'DELETE'
         });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
         categories.value = categories.value.filter(category => category.category_id !== id);
     } catch (error) {
-        throw new Error(`Error deleting category with id ${id}:`, error);
+        throw new Error(`Error deleting category with id ${id}: ${error.message}`);
     }
 }

@@ -1,10 +1,10 @@
 import { createStore } from 'vuex';
-import { login } from '@/services/user.handler.js';
+import { login, checkTokenValidity } from '@/services/user.handler.js';
 
 const store = createStore({
     state: {
         token: localStorage.getItem('token') || null,
-        userId: null, // Initialize userId to null
+        userId: null,
         error: null
     },
     mutations: {
@@ -37,7 +37,6 @@ const store = createStore({
                 commit('setUserId', userId);
 
                 commit('clearError');
-                // return token;
             } catch (error) {
                 commit('setError', error.message);
                 throw new Error(error.message);
@@ -45,6 +44,11 @@ const store = createStore({
         },
         logoutUser({ commit }) {
             commit('clearToken');
+        },
+        async checkTokenValidity({ state, commit }) {
+            if (!checkTokenValidity(state.token)) {
+                commit('clearToken');
+            }
         }
     },
     getters: {

@@ -1,16 +1,13 @@
 import { ref } from 'vue';
+import fetchWithAuth from './fetchWithAuth'; // Importiere die Utility-Funktion
 
 export const userQuizzes = ref([]);
 
 export async function getUserQuizzes(userId) {
     try {
-        const response = await fetch(`/api/users/${userId}/quizzes`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
+        const data = await fetchWithAuth(`/api/users/${userId}/quizzes`);
         userQuizzes.value = data;
     } catch (error) {
-        throw new Error('Error fetching quizzes:', error);
+        throw new Error(`Error fetching quizzes: ${error.message}`);
     }
 }
