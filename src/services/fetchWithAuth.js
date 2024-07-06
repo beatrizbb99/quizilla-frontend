@@ -1,13 +1,14 @@
 import store from '@/store/index.js';
-import { checkTokenValidity } from '@/services/user.handler.js'; 
+//import { checkTokenValidity } from '@/services/user.handler.js'; 
 
 const fetchWithAuth = async (url, options = {}) => {
     const token = store.getters.getToken;
     
-    if (token && !checkTokenValidity(token)) {
+    /*if (token && !checkTokenValidity(token)) {
         store.dispatch('logoutUser');
         throw new Error('Token expired');
     }
+    */
     
     const headers = options.headers || {};
     headers['Content-Type'] = 'application/json';
@@ -24,7 +25,7 @@ const fetchWithAuth = async (url, options = {}) => {
 
     try {
         const response = await fetch(url, config);
-
+        console.log(config)
         if (!response.ok) {
             const error = await response.json();
             throw new Error(error.message || 'Fehler bei der Anfrage');

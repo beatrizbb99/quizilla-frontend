@@ -28,14 +28,12 @@ const store = createStore({
         }
     },
     actions: {
-        async loginUser({ commit }, { email, password }) {
+        async loginUser({ commit }, { username, password }) {
             try {
-                const response = await login({ email, password });
-                const { token, userId } = response;
+                const response = await login({ username, password });
 
-                commit('setToken', token);
-                commit('setUserId', userId);
-
+                //commit('setToken', token);
+                commit('setUserId', response.userId)
                 commit('clearError');
             } catch (error) {
                 commit('setError', error.message);

@@ -1,6 +1,6 @@
 <template>
     <div class="quiz-container">
-        <div v-if="!userId" class="media-container">
+        <div v-if="!props.userId" class="media-container">
             <CloudMedium :path="blablabla" class="media round" />
         </div>
         <div v-else class="media-container">
@@ -13,7 +13,7 @@
             </div>
             <div class="quiz-list">
                 <li v-for="quiz in props.quizzes" :key="quiz.id">
-                    <MyQuizzesCard :quizData="quiz" :userId="userId" />
+                    <MyQuizzesCard :quizData="quiz" :userId="props.userId" />
                 </li>
             </div>
         </div>
@@ -27,16 +27,16 @@ import { useRouter } from 'vue-router';
 import CloudMedium from '../components/CloudMedium';
 
 const router = useRouter();
-const userId = "FgfSmrqIIdzlL6rSHBeJ";
 
 const props = defineProps({
-  quizzes: Object
-});
+  quizzes: Object,
+  userId: String
+}); 
 
 const createQuiz = () => {
     router.push({
         name: 'CreateQuizzes',
-        params: { userId: userId }
+        params: { userId: props.userId }
     });
 };
 </script>

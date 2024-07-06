@@ -24,7 +24,8 @@
       </li>
     </ul>
     <ul v-else-if="selectedOption === 'my'" class="myquiz-list">
-      <MyQuizzes :quizzes="filteredMyQuizzes"/>
+      <MyQuizzes :quizzes="filteredMyQuizzes" :userId="userId"/>
+
     </ul>
   </div>
 </template>
@@ -35,11 +36,13 @@ import { quizzes, getAllQuizzes } from '@/services/quiz.database.handler.js';
 import { userQuizzes, getUserQuizzes } from '@/services/user.database.handler';
 import QuizCard from '@/components/QuizCard';
 import MyQuizzes from '@/components/MyQuizzes';
+import { useStore } from 'vuex';
 
+const store = useStore();
 const selectedOption = ref('my');
 const searchQuery = ref('');
 
-const userId = "FgfSmrqIIdzlL6rSHBeJ";
+const userId = store.getters.getUserId;
 
 const fetchQuizzes = async () => {
   await getAllQuizzes();

@@ -2,9 +2,9 @@
   <div class="login-container">
     <h2>Login</h2>
     <form @submit.prevent="loginUser">
-      <div :class="['form-group', { 'has-error': emailError }]">
-        <label for="email">Email:</label>
-        <input type="text" id="email" v-model="email" required>
+      <div :class="['form-group']">
+        <label for="username">Username:</label>
+        <input type="text" id="username" v-model="username" required>
       </div>
       <div :class="['form-group', { 'has-error': passwordError }]">
         <label for="password">Password:</label>
@@ -12,6 +12,7 @@
       </div>
       <button type="submit" class="regular-button">Anmelden</button>
     </form>
+    <button class="regular-button" @click="googleLogin">Mit Google anmelden</button>
   </div>
 </template>
 
@@ -21,26 +22,27 @@ import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toast-notification';
 import { useStore } from 'vuex';
 
-const store = useStore();
 const router = useRouter();
 const toast = useToast();
-
-const email = ref('');
+const username = ref('');
 const password = ref('');
-const emailError = ref(false);
+const store = useStore();
 const passwordError = ref(false);
 
+async function googleLogin(){
+  window.location.href = 'http://localhost:9090/oauth2/authorization/google';
+}
+
 async function loginUser() {
-  emailError.value = !email.value;
   passwordError.value = !password.value;
 
-  if (emailError.value || passwordError.value) {
+  if (passwordError.value) {
     toast.error('Bitte alle Felder ausfüllen.');
     return;
   }
 
   try {
-    await store.dispatch('loginUser', { email: email.value, password: password.value });
+    await store.dispatch('loginUser', { username: username.value, password: password.value });
     toast.success('Erfolgreich angemeldet!');
     router.push({ name: 'ShowQuizzes' });
   } catch (error) {
