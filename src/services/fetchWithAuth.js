@@ -1,7 +1,7 @@
 import store from '@/store/index.js';
 //import { checkTokenValidity } from '@/services/user.handler.js'; 
 
-const fetchWithAuth = async (url, options = {}) => {
+const fetchWithAuth = async (url, options = {}, baseUrl = 'http://localhost:9090') => {
     const token = store.getters.getToken;
     
     /*if (token && !checkTokenValidity(token)) {
@@ -24,7 +24,7 @@ const fetchWithAuth = async (url, options = {}) => {
     };
 
     try {
-        const response = await fetch(url, config);
+        const response = await fetch(baseUrl + url, config);
         console.log(config)
         if (!response.ok) {
             const error = await response.json();
