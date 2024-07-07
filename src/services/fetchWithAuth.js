@@ -1,7 +1,7 @@
 import store from '@/store/index.js';
 //import { checkTokenValidity } from '@/services/user.handler.js'; 
 
-const fetchWithAuth = async (url, options = {}, baseUrl = 'http://localhost:9090') => {
+const fetchWithAuth = async (url, options = {}, baseUrl = 'https://flowing-gasket-421115.ew.r.appspot.com') => {
     const token = store.getters.getToken;
     
     /*if (token && !checkTokenValidity(token)) {

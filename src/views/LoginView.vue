@@ -30,7 +30,7 @@ const store = useStore();
 const passwordError = ref(false);
 
 async function googleLogin(){
-  window.location.href = 'http://localhost:9090/oauth2/authorization/google';
+  window.location.href = 'https://flowing-gasket-421115.ew.r.appspot.com/oauth2/authorization/google';
 }
 
 async function loginUser() {

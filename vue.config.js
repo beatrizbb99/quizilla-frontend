@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api/*': {
-        target: 'http://localhost:9090',
+        target: 'https://flowing-gasket-421115.ew.r.appspot.com',
         changeOrigin: true,
         secure: false
       }
