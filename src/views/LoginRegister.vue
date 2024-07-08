@@ -14,6 +14,7 @@
             @mouseover="handleMouseOver"
             @mouseleave="handleMouseLeave"
         >
+        <p class="version-info">version 3</p>
     </div>
 </template>
 <script setup>
@@ -54,7 +55,7 @@ const register = () => {
 
 .start {
     color: var(--primary-color);
-    max-width: 30%;
+    max-width: 40%;
 }
 
 .title {
@@ -75,5 +76,13 @@ const register = () => {
 .logo {
     max-width: 40%;
     transition: opacity 0.3s ease;
+}
+
+.version-info {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 8pt;
+    color: #bed2a3;
 }
 </style>
