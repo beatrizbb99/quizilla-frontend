@@ -21,6 +21,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toast-notification';
 import { useStore } from 'vuex';
+import { googleSdkLoaded } from "vue3-google-login";
+import axios from "axios";
 
 const router = useRouter();
 const toast = useToast();
@@ -28,10 +30,8 @@ const username = ref('');
 const password = ref('');
 const store = useStore();
 const passwordError = ref(false);
+const userDetails = ref(null);
 
-async function googleLogin(){
-  window.location.href = 'https://flowing-gasket-421115.ew.r.appspot.com/oauth2/authorization/google';
-}
 
 async function loginUser() {
   passwordError.value = !password.value;
@@ -47,6 +47,40 @@ async function loginUser() {
     router.push({ name: 'ShowQuizzes' });
   } catch (error) {
     toast.error('Die eingegebenen Anmeldeinformationen sind falsch. Versuch es erneut...');
+  }
+}
+
+
+async function googleLogin() {
+  googleSdkLoaded(google => {
+    google.accounts.oauth2
+      .initCodeClient({
+        client_id: "801596746754-65qpds3imfekk34ta22nrg9k94ef04ak.apps.googleusercontent.com",
+        scope: "email profile openid",
+        redirect_uri: "http://localhost:8080",
+        callback: response => {
+          if (response.code) {
+            console.log('Authorization code:', response.code);
+            sendCodeToBackend(response.code);
+          }
+        }
+      })
+      .requestCode();
+  });
+}
+
+async function sendCodeToBackend(code) {
+  try {
+    const response = await axios.post("http://localhost:9090/api/google", { code }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    userDetails.value = response.data;
+    console.log("User Details:", userDetails.value);
+  } catch (error) {
+    console.error("Failed to send authorization code:", error);
+    toast.error('Authorization fehlgeschlagen.');
   }
 }
 </script>
