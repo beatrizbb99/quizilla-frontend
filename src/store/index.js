@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { login, checkTokenValidity } from '@/services/user.handler.js';
+import { login } from '@/services/user.handler.js';
 
 const store = createStore({
     state: {
@@ -43,11 +43,12 @@ const store = createStore({
         logoutUser({ commit }) {
             commit('clearToken');
         },
+        /*
         async checkTokenValidity({ state, commit }) {
             if (!checkTokenValidity(state.token)) {
                 commit('clearToken');
             }
-        }
+        }*/
     },
     getters: {
         isLoggedIn: state => !!state.token,

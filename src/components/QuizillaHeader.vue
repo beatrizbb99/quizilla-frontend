@@ -1,17 +1,29 @@
 <template>
   <header class="app-header">
     <router-link to="/" class="logo" style="text-decoration: none;">
-      <h1>Quizilla</h1>
+      <h1>Quizilla v1</h1>
     </router-link>
     <nav class="nav">
       <router-link to="/quizzes">Quizze</router-link>
       <router-link to="/categories">Kategorien</router-link>
       <router-link to="/questions">Fragen</router-link>
+      <a href="#" @click="logout">Logout</a>
     </nav>
   </header>
 </template>
 
 <script setup>
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore();
+const router = useRouter();
+
+const logout = () => {
+  store.dispatch('logoutUser').then(() => {
+    router.push('/');
+  });
+};
 </script>
 
 <style scoped>

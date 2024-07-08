@@ -2,7 +2,7 @@
 
 export async function register(user) {
     try {
-        const response = await fetch('https://flowing-gasket-421115.ew.r.appspot.com/register', {
+        const response = await fetch('https://flowing-gasket-421115.ew.r.appspot.com/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ export async function register(user) {
 
 export async function login(user) {
     try {
-        const response = await fetch('https://flowing-gasket-421115.ew.r.appspot.com/login', {
+        const response = await fetch('https://flowing-gasket-421115.ew.r.appspot.com/api/loginNormal', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
