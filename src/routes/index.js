@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-//import store from '../store/index';
+import store from '../store/index';
 
 import EditCategories from '../views/EditCategories.vue';
 import ShowQuizzes from '../views/ShowQuizzes.vue';
@@ -47,7 +47,6 @@ const router = createRouter({
     ]
 });
 
-/*
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!store.getters.isLoggedIn) {
@@ -59,5 +58,5 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-*/
+
 export default router;
