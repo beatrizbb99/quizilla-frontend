@@ -13,7 +13,7 @@ const fetchWithAuth = async (url, options = {}, baseUrl = 'https://flowing-gaske
     const headers = options.headers || {};
     headers['Content-Type'] = 'application/json';
 
-    // Füge den Authorization-Header hinzu, wenn ein Token vorhanden ist
+    //Authorization-Header
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
     }
@@ -25,16 +25,23 @@ const fetchWithAuth = async (url, options = {}, baseUrl = 'https://flowing-gaske
 
     try {
         const response = await fetch(baseUrl + url, config);
-        console.log(config)
         if (!response.ok) {
-            const error = await response.json();
+            const error = await response.json().catch(() => ({
+                message: 'Unknown error',
+            }));
             throw new Error(error.message || 'Fehler bei der Anfrage');
         }
 
-        return response.json();
+        const contentType = response.headers.get('Content-Type');
+
+        if (contentType && contentType.includes('application/json')) {
+            return response.json();
+        }
+
+        return response.text();
     } catch (error) {
         console.error('Fehler bei der Anfrage:', error);
-        throw error; // Fehler weiterwerfen, um sie in der Aufrufliste zu behandeln
+        throw error;
     }
 };
 

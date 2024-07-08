@@ -4,7 +4,7 @@ import { login } from '@/services/user.handler.js';
 const store = createStore({
     state: {
         token: localStorage.getItem('token') || null,
-        userId: null,
+        userId: localStorage.getItem('userId') || null,
         error: null
     },
     mutations: {
@@ -14,6 +14,7 @@ const store = createStore({
         },
         setUserId(state, userId) {
             state.userId = userId;
+            localStorage.setItem('userId', userId);
         },
         setError(state, error) {
             state.error = error;
@@ -25,15 +26,16 @@ const store = createStore({
             state.token = null;
             state.userId = null;
             localStorage.removeItem('token');
+            localStorage.removeItem('userId');
         }
     },
     actions: {
         async loginUser({ commit }, { username, password }) {
             try {
                 const response = await login({ username, password });
-
-                //commit('setToken', token);
-                commit('setUserId', response.userId)
+                console.log("response: ", response);
+                commit('setToken', response.token);
+                commit('setUserId', response.id);
                 commit('clearError');
             } catch (error) {
                 commit('setError', error.message);

@@ -24,8 +24,7 @@
       </li>
     </ul>
     <ul v-else-if="selectedOption === 'my'" class="myquiz-list">
-      <MyQuizzes :quizzes="filteredMyQuizzes" :userId="userId"/>
-
+      <MyQuizzes :quizzes="filteredMyQuizzes"/>
     </ul>
   </div>
 </template>
@@ -39,7 +38,7 @@ import MyQuizzes from '@/components/MyQuizzes';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const selectedOption = ref('my');
+const selectedOption = ref('all');
 const searchQuery = ref('');
 
 const userId = store.getters.getUserId;

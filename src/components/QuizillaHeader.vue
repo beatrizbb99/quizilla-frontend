@@ -1,7 +1,7 @@
 <template>
   <header class="app-header">
     <router-link to="/" class="logo" style="text-decoration: none;">
-      <h1>Quizilla v1</h1>
+      <h1>Quizilla</h1>
     </router-link>
     <nav class="nav">
       <router-link to="/quizzes">Quizze</router-link>

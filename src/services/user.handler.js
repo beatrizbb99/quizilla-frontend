@@ -39,8 +39,7 @@ export async function login(user) {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        localStorage.setItem("token",data.token)
-
+        
         console.log('Login successful');
         return data; 
         

@@ -23,13 +23,16 @@ import { defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 import { deleteQuiz } from '@/services/quiz.database.handler.js';
 import CloudMedium from '../components/CloudMedium';
+import { useStore } from 'vuex';
 
 const props = defineProps({
     quizData: Object,
-    userId: String
 });
 
 const router = useRouter();
+const store = useStore();
+
+const userId = store.getters.getUserId;
 
 const editQuiz = () => {
     router.push({
@@ -39,7 +42,7 @@ const editQuiz = () => {
 };
 
 const deleteQuizWithId = async () => {
-    await deleteQuiz(props.quizData.quiz_id, props.userId, props.quizData.mediaPath);
+    await deleteQuiz(props.quizData.quiz_id, userId, props.quizData.mediaPath);
 };
 
 const startQuiz = () => {
