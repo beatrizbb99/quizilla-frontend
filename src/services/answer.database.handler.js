@@ -1,4 +1,3 @@
-// user.handler.js
 import fetchWithAuth from './fetchWithAuth';
 
 export async function createAnswer(answer, question_id) {
@@ -7,7 +6,7 @@ export async function createAnswer(answer, question_id) {
             method: 'POST',
             body: JSON.stringify(answer)
         });
-        return response; // Rückgabe der Antwort, falls benötigt
+        return response;
     } catch (error) {
         throw new Error(`Error creating answer: ${error.message}`);
     }

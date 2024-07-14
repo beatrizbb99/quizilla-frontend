@@ -75,7 +75,6 @@ const createQuiz = () => {
 .right-panel {
     flex: 1 1 auto;
     margin-left: 20px;
-    /* Adjust spacing between left and right panels */
 }
 
 

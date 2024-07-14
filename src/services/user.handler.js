@@ -1,5 +1,3 @@
-
-
 export async function register(user) {
     try {
         const response = await fetch('https://flowing-gasket-421115.ew.r.appspot.com/api/register', {

@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import fetchWithAuth from './fetchWithAuth'; // Importiere die Utility-Funktion
+import fetchWithAuth from './fetchWithAuth';
 
 export const categories = ref([]);
 
@@ -27,7 +27,7 @@ export async function createCategory(category) {
             method: 'POST',
             body: JSON.stringify(category)
         });
-        // categories.value.push(category); // Optional: Aktualisiere die Kategorienliste nach dem Erstellen
+        // categories.value.push(category);
     } catch (error) {
         throw new Error(`Error creating category: ${error.message}`);
     }

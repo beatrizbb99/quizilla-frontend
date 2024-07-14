@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import fetchWithAuth from './fetchWithAuth'; // Importiere die Utility-Funktion
+import fetchWithAuth from './fetchWithAuth';
 
 export const userQuizzes = ref([]);
 

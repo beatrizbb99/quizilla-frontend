@@ -57,12 +57,12 @@ async function loginUser() {
   flex-direction: column;
   align-items: center;
   padding: 3rem;
-  max-width: 500px; /* Max width for the container */
-  margin: 0 auto; /* Center the container */
-  border: 1px solid var(--primary-color); /* Use primary color for border */
-  border-radius: 8px; /* Optional: Add border radius */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-  background-color: var(--secondary-background-color); /* Use secondary background color */
+  max-width: 500px; 
+  margin: 0 auto; 
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  background-color: var(--secondary-background-color);
 }
 
 h2 {
@@ -75,22 +75,22 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 100%; /* Ensure form-group takes full width */
+  width: 100%;
 }
 
 input {
   padding: 1rem;
   font-size: var(--font-size-medium);
-  width: calc(100% - 2rem); /* Adjust width to account for padding */
-  border: 1px solid var(--primary-color); /* Use primary color for border */
-  border-radius: 6px; /* Optional: Add border radius */
+  width: calc(100% - 2rem); 
+  border: 1px solid var(--primary-color); 
+  border-radius: 6px; 
 }
 
 button {
   padding: 1rem;
   font-size: var(--font-size-medium);
   cursor: pointer;
-  width: 100%; /* Ensure button takes full width */
+  width: 100%; 
 }
 
 .has-error input {

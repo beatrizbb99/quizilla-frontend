@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { storage } from "../services/firebaseStorageConfig";
 import { ref as storageRef, deleteObject } from "firebase/storage";
-import fetchWithAuth from './fetchWithAuth'; // Importiere die Utility-Funktion
+import fetchWithAuth from './fetchWithAuth';
 
 export const questions = ref([]);
 
